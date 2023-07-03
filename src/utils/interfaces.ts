@@ -1,4 +1,4 @@
-import { Game } from "./gameClass";
+import { Game } from "./gameInterface";
 
 
 export interface Unit {
@@ -10,9 +10,13 @@ export interface Unit {
     id: number;
 }
 
+export type Action = (player: UnitAction, game: Game, targetId: number)=>void;
+
 export interface UnitAction extends Unit{
-    action(player: UnitAction, game: Game, targetId: number):void;
+    action:Action
 } 
+
+
 
 export interface UnitDamage extends Unit{
     damage: number;

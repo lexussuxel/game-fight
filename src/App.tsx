@@ -1,21 +1,19 @@
-import { useState } from "react";
-import  {Game} from "./utils/gameClass";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "./store";
 
-const game = new Game()
+
 
 function App() {
-  
-
-  const [round, setRound] = useState(game.round)
-  function clickhandler(){
-    game.incrementRound();
-    //setRound(game.round)
-   // console.log(round)
+  const game = useSelector((state: RootState)=> state.gameSlice)
+  const dispatch = useDispatch()
+  function clickHandler(){
+    null
   }
   return (
     <div>
-      <div>{game.round}</div>
-      <div onClick={clickhandler}>click</div>
+      {game.round}
+      <div onClick={clickHandler}>click</div>
     </div>
   );
 }
