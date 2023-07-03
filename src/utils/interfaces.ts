@@ -1,15 +1,18 @@
-export interface Attack{
-    action():void;
-}
+import { Game } from "./gameClass";
 
-export interface Unit{
-    type: UnitTypes,
+
+export interface Unit {
+    type: UnitTypes;
     HP: number;
     initiative: number;
-    name: GameUnits;
+    name: string;
     img: string;
-    action: Attack;
+    id: number;
 }
+
+export interface UnitAction extends Unit{
+    action(player: UnitAction, game: Game, targetId: number):void;
+} 
 
 export interface UnitDamage extends Unit{
     damage: number;
@@ -20,6 +23,7 @@ export interface UnitHeal extends Unit{
 }
 
 export type AllUnits = UnitDamage | UnitHeal | Unit
+export type AllUnitsWOId = Omit<UnitDamage, "id"> | Omit<UnitHeal, "id">  | Omit<Unit, "id">
 
 export enum UnitTypes {
     Melee,
@@ -30,14 +34,3 @@ export enum UnitTypes {
     Paralyzer
 }
 
-export enum GameUnits {
-    Skeleton = "Skeleton",
-    Centaur = "Centaur",
-    Bandit = "Bandit",
-    ElfArcher = "Elf Archer",
-    SkeletonMage = "Skeleton Mage",
-    Archimage = "Archimage",
-    Monk = "Monk",
-    Bishop = "Bishop",
-    Sirena = "Sirena"
-}
