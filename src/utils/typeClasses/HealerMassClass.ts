@@ -1,8 +1,7 @@
-import { UnitTypes, UnitAction, UnitHeal } from "../interfaces";
+import {  Unit } from "../interfaces";
 
 
-export class HealerMass implements UnitAction{
-    type: UnitTypes;
+export class HealerMass implements Unit{
     HP: number
     initiative:number
     name:string
@@ -10,17 +9,16 @@ export class HealerMass implements UnitAction{
     heal: number
     id: number
 
-    constructor(object: UnitHeal, id:number){
+    constructor(object: Omit<Unit, "action">, heal: number, id: number){
         this.id = id
-        this.type = object.type
         this.HP = object.HP
         this.initiative = object.initiative
         this.name = object.name
         this.img = object.img
-        this.heal = object.heal
+        this.heal = heal
 
 
-    } 
+    }  
 
     action(): void {
         null

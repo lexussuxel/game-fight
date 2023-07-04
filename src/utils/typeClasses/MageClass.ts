@@ -1,8 +1,7 @@
-import { UnitTypes, UnitAction, UnitDamage } from "../interfaces";
+import { UnitDamage, Unit } from "../interfaces";
 
 
-export class Mage implements UnitAction{
-    type: UnitTypes;
+export class Mage implements Unit{
     HP: number
     initiative:number
     name:string
@@ -10,14 +9,13 @@ export class Mage implements UnitAction{
     damage: number
     id: number
 
-    constructor(object: UnitDamage, id:number){
+    constructor(object: Omit<Unit, "action">, damage: number, id: number){
         this.id = id
-        this.type = object.type
         this.HP = object.HP
         this.initiative = object.initiative
         this.name = object.name
         this.img = object.img
-        this.damage = object.damage
+        this.damage = damage
 
 
     }  

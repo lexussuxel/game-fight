@@ -1,7 +1,10 @@
-import {  Action,  UnitAction} from "./interfaces";
+
+import {  Action, Unit} from "./interfaces";
+
+
 
 export interface Game {
-    players: Array<UnitAction>
+    players: Array<Unit>
     redUnitAction:  Action| null
     blueUnitAction: Action| null
     round: number

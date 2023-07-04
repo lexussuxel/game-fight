@@ -1,27 +1,25 @@
+import { Unit } from "../interfaces";
 
-import { Unit, UnitAction, UnitTypes } from "../interfaces";
-
-
-export class Paralyzer implements UnitAction{
-    type: UnitTypes;
+export class HealerSingle implements Unit{
     HP: number
     initiative:number
     name:string
     img:string
+    heal: number
     id: number
 
-    constructor(object: Unit, id:number){
+    constructor(object: Omit<Unit, "action">, heal: number, id: number){
         this.id = id
-        this.type = object.type
         this.HP = object.HP
         this.initiative = object.initiative
         this.name = object.name
         this.img = object.img
+        this.heal = heal
 
-    } 
+
+    }  
 
     action(): void {
         null
     }
 }
-

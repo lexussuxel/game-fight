@@ -1,8 +1,7 @@
 import { Game } from "../gameInterface";
-import { UnitTypes, UnitAction, UnitDamage } from "../interfaces";
+import {  Unit } from "../interfaces";
 
-export class Melee implements UnitAction{
-    type: UnitTypes;
+export class Melee implements Unit{
     HP: number
     initiative:number
     name:string
@@ -10,18 +9,17 @@ export class Melee implements UnitAction{
     damage: number
     id: number
 
-    constructor(object: UnitDamage, id: number){
+    constructor(object: Omit<Unit, "action">, damage: number, id: number){
         this.id = id
-        this.type = object.type
         this.HP = object.HP
         this.initiative = object.initiative
         this.name = object.name
         this.img = object.img
-        this.damage = object.damage
+        this.damage = damage
 
 
     }  
-    action(player: UnitAction, game: Game):void{
+    action(player: Unit, game: Game):void{
         null
     }
 }

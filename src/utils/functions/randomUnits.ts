@@ -1,8 +1,7 @@
-import { Melee, Range, HealerMass, HealerSingle, Paralyzer, Mage } from "../actionClasses";
-import { UNITS } from "../constants";
-import {  Unit, UnitAction, UnitDamage, UnitHeal, UnitTypes } from "../interfaces";
+import { Unit } from "../interfaces";
+import { Archimage, Bandit, Bishop, Centaur, Elf, Monk, Sirena, Skeleton, SkeletonMage } from "../unitClasses";
 
-export function randomSetPlayers():Array<UnitAction>{
+export function randomSetPlayers():Array<Unit>{
     const players = []
     for(let i = 0; i < 12; i++){
       
@@ -12,36 +11,38 @@ export function randomSetPlayers():Array<UnitAction>{
 }
 
 
-function getRandomUnit(id: number):UnitAction{
-    const newUnitConst = UNITS[getRandomNumber(0, 9)]
-    let newUnit:UnitAction;
-    switch(newUnitConst.type){
-        case UnitTypes.Melee: {
-            newUnit = new Melee(newUnitConst as UnitDamage, id)
-            break;
+function getRandomUnit(id: number):Unit{
+    const number = getRandomNumber(0, 9)
+    switch(number){
+        case 0: {
+          return new Skeleton(id)
         }
-        case UnitTypes.Range:{
-            newUnit = new Range(newUnitConst as UnitDamage, id)
-            break; 
+        case 1:{
+          return new Centaur(id)
+
         }
-        case UnitTypes.Mage:{
-            newUnit = new Mage(newUnitConst as UnitDamage, id)
-            break;
+        case 2:{
+           return new Bandit(id)
         }
-        case UnitTypes.HealerMass:{
-            newUnit = new HealerMass(newUnitConst as UnitHeal, id)
-            break;
+        case 3:{
+            return new Elf(id)
         }
-        case UnitTypes.HealerSingle:{
-            newUnit = new HealerSingle(newUnitConst as UnitHeal, id)
-            break;
+        case 4:{
+            return new SkeletonMage(id)
         }
-        case UnitTypes.Paralyzer:{
-            newUnit = new Paralyzer(newUnitConst as Unit, id)
-            break;
+        case 5:{
+            return new Archimage(id)
+        }
+        case 6:{
+            return new Monk(id)
+        }
+        case 7:{
+            return new Bishop(id)
+        }
+        default:{
+            return new Sirena(id)
         }
     }
-    return newUnit
 }
 
 export function getRandomNumber(min:number, max:number):number{
