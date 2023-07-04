@@ -3,7 +3,7 @@ import { Archimage, Bandit, Bishop, Centaur, Elf, Monk, Sirena, Skeleton, Skelet
 
 export function randomSetPlayers():Array<Unit>{
     const players = []
-    for(let i = 0; i < 12; i++){
+    for(let i = 0; i < 6; i++){
       
         players.push(getRandomUnit(i))
     }

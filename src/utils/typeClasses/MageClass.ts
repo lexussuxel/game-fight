@@ -1,4 +1,4 @@
-import { UnitDamage, Unit } from "../interfaces";
+import {  Unit } from "../interfaces";
 
 
 export class Mage implements Unit{

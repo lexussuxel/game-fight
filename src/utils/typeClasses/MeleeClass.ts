@@ -1,4 +1,3 @@
-import { Game } from "../gameInterface";
 import {  Unit } from "../interfaces";
 
 export class Melee implements Unit{
@@ -19,7 +18,7 @@ export class Melee implements Unit{
 
 
     }  
-    action(player: Unit, game: Game):void{
+    action():void{
         null
     }
 }

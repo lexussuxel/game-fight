@@ -4,7 +4,8 @@ import { randomSetPlayers } from "../utils/functions";
 
 
 const initialState: Game = {
-    players: randomSetPlayers(),
+    blueTeam: randomSetPlayers(),
+    redTeam: randomSetPlayers(),
     redUnitAction: null,
     blueUnitAction: null,
     helperText: "",

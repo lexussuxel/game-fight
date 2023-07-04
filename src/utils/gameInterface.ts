@@ -4,7 +4,8 @@ import {  Action, Unit} from "./interfaces";
 
 
 export interface Game {
-    players: Array<Unit>
+    blueTeam: Array<Unit>,
+    redTeam: Array<Unit>,
     redUnitAction:  Action| null
     blueUnitAction: Action| null
     round: number
