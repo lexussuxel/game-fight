@@ -1,25 +1,18 @@
-import {  Unit } from "../interfaces";
+import {  Action, IUnit, Unit } from "../interfaces";
 
 
-export class Mage implements Unit{
-    HP: number
-    initiative:number
-    name:string
-    img:string
+export abstract class Mage extends Unit{
+  
     damage: number
-    id: number
 
-    constructor(object: Omit<Unit, "action">, damage: number, id: number){
-        this.id = id
-        this.HP = object.HP
-        this.initiative = object.initiative
-        this.name = object.name
-        this.img = object.img
+    constructor(object: IUnit, damage: number, id: number){
+        super(object, id)
+
         this.damage = damage
 
 
     }  
-    action(): void {
+    action:Action = ()=> {
        null 
     }
 }

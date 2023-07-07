@@ -1,17 +1,23 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import NavBar from "./components/NavBar";
+import { AppWrapper, RoundWrapper } from "./UI";
+import Battlefield from "./components/Battlefield";
+import { useSelector } from "react-redux";
 import { RootState } from "./store";
-import "./global.css"
 
 
 
 function App() {
-  const game = useSelector((state: RootState)=> state.gameSlice)
-  const dispatch = useDispatch()
- 
+  const round = useSelector((state: RootState)=> state.gameSlice.round)
+
   return (
-    <div>
-    </div>
+    <AppWrapper>
+      <RoundWrapper><p>{round}</p></RoundWrapper>
+      <NavBar id={1}/>
+      <Battlefield/>
+      <NavBar id={2}/>
+    </AppWrapper>
+      
   );
 }
 

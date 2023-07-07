@@ -1,26 +1,18 @@
-import {  Unit } from "../interfaces";
+import {  Action, IUnit, Unit } from "../interfaces";
 
 
-export class HealerMass implements Unit{
-    HP: number
-    initiative:number
-    name:string
-    img:string
+export abstract class HealerMass extends Unit{
+    
     heal: number
-    id: number
 
-    constructor(object: Omit<Unit, "action">, heal: number, id: number){
-        this.id = id
-        this.HP = object.HP
-        this.initiative = object.initiative
-        this.name = object.name
-        this.img = object.img
+    constructor(object: IUnit, heal: number, id: number){
+        super(object, id)
         this.heal = heal
 
 
     }  
 
-    action(): void {
+    action:Action = () => {
         null
     }
 }
