@@ -1,34 +1,48 @@
-
-
 export interface IUnit {
-    maxHP: number;
-    initiative: number;
-    name: string;
-    img: string;
+  maxHP: number;
+  initiative: number;
+  name: string;
+  img: string;
 }
 
-export abstract class Unit implements IUnit{
-    readonly maxHP: number;
-    HP: number;
-    initiative: number;
-    name: string;
-    img: string;
-    id: number;
+export type Team = "red" | "blue";
 
-    constructor(object: IUnit, id: number){
-        this.maxHP = object.maxHP
-        this.HP= object.maxHP
-        this.initiative = object.initiative
-        this.name = object.name
-        this.img = object.img
-        this.id = id
-    }
+export abstract class Unit implements IUnit {
+  readonly maxHP: number;
+  HP: number;
+  initiative: number;
+  name: string;
+  img: string;
+  id: number;
+  paralyzed: boolean;
+  team: Team;
 
-    abstract action:Action
+  constructor(object: IUnit, id: number, team: Team) {
+    this.maxHP = object.maxHP;
+    this.HP = object.maxHP;
+    this.initiative = object.initiative;
+    this.name = object.name;
+    this.img = object.img;
+    this.id = id;
+    this.paralyzed = false;
+    this.team = team;
+  }
+
+  abstract action: Action;
 }
 
-export type Action = (player: Unit, players: Array<Unit>, targetId: number)=>void;
+export interface HelperTextType {
+  [name: string]: string;
+}
 
+export interface ActionReturn {
+  blueTeam: Array<Unit>;
+  redTeam: Array<Unit>;
+}
+export type Action = (
+  redTeam: Array<Unit>,
+  blueTeam: Array<Unit>,
+  targetId: number
+) => ActionReturn;
 
-
-
+export type GameAction = () => ActionReturn
