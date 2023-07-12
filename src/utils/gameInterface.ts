@@ -1,16 +1,17 @@
-import { GameAction, Unit } from "./interfaces";
+import { Unit } from "./interfaces";
 
 export interface Game {
   blueTeam: Array<Unit>;
   redTeam: Array<Unit>;
-  redUnitAction: GameAction | null;
-  blueUnitAction: GameAction | null;
   round: number;
-  helperText: string;
   redTeamDefend: boolean;
-  blueTeamDefed: boolean;
+  blueTeamDefend: boolean;
   source: Unit | null;
   sourceType: string | null;
   redUnitActionText: string | null;
   blueUnitActionText: string | null;
+  blueUnitAttackSource: Unit | null;
+  redUnitAttackSource: Unit | null;
+  blueUnitAttackTarget: Unit | null;
+  redUnitAttackTarget: Unit | null;
 }

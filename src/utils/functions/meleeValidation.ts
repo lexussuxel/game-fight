@@ -11,20 +11,28 @@ export function redTeamValidation(
       if (
         target.id === 3 ||
         target.id === 4 ||
-        (blueTeam[3].HP === 0 && blueTeam[4].HP === 0 && target.id === 5)
+        (blueTeam[3].HP === 0 && blueTeam[4].HP === 0 && target.id === 5) ||
+        (blueTeam[3].HP === 0 && blueTeam[4].HP === 0 && blueTeam[5].HP === 0)
       )
         return true;
       return false;
     }
     case 1: {
-      if (target.id === 3 || target.id === 4 || target.id === 5) return true;
+      if (
+        target.id === 3 ||
+        target.id === 4 ||
+        target.id === 5 ||
+        (blueTeam[3].HP === 0 && blueTeam[4].HP === 0 && blueTeam[5].HP === 0)
+      )
+        return true;
       return false;
     }
     case 2: {
       if (
         target.id === 5 ||
         target.id === 4 ||
-        (blueTeam[4].HP === 0 && blueTeam[4].HP === 0 && target.id === 3)
+        (blueTeam[4].HP === 0 && blueTeam[5].HP === 0 && target.id === 3) ||
+        (blueTeam[3].HP === 0 && blueTeam[4].HP === 0 && blueTeam[5].HP === 0)
       )
         return true;
       return false;
@@ -46,20 +54,28 @@ export function blueTeamValidation(
       if (
         target.id === 0 ||
         target.id === 1 ||
-        (redTeam[0].HP === 0 && redTeam[1].HP === 0 && target.id === 2)
+        (redTeam[0].HP === 0 && redTeam[1].HP === 0 && target.id === 2) ||
+        (redTeam[1].HP === 0 && redTeam[1].HP === 0 && redTeam[2].HP === 0)
       )
         return true;
       return false;
     }
     case 4: {
-      if (target.id === 1 || target.id === 0 || target.id === 2) return true;
+      if (
+        target.id === 1 ||
+        target.id === 0 ||
+        target.id === 2 ||
+        (redTeam[1].HP === 0 && redTeam[1].HP === 0 && redTeam[2].HP === 0)
+      )
+        return true;
       return false;
     }
     case 5: {
       if (
         target.id === 2 ||
         target.id === 1 ||
-        (redTeam[1].HP === 0 && redTeam[2].HP === 0 && target.id === 0)
+        (redTeam[1].HP === 0 && redTeam[2].HP === 0 && target.id === 0) ||
+        (redTeam[1].HP === 0 && redTeam[1].HP === 0 && redTeam[2].HP === 0)
       )
         return true;
       return false;

@@ -8,7 +8,12 @@ import {
   SmallCardWrapper,
 } from "./styles";
 import { useDispatch, useSelector } from "react-redux";
-import { removeSource, setBlueTeamAction, setRedTeamAction, setSource } from "../../store/gameSlice";
+import {
+  removeSource,
+  setBlueTeamAction,
+  setRedTeamAction,
+  setSource,
+} from "../../store/gameSlice";
 import { RootState } from "../../store";
 import { TARGET_UNITS } from "../../utils/constants";
 import { blueTeamValidation, redTeamValidation } from "../../utils/functions";
@@ -23,9 +28,11 @@ export default function SmallCard({ player }: SmallCardProps) {
     (state: RootState) => state.gameSlice
   );
 
-  const sourceValidation = useCallback(   
+  const sourceValidation = useCallback(
     () =>
-      source?.team === player.team && source?.id === player.id
+      source?.team === player.team &&
+      source?.id === player.id &&
+      !player.paralyzed
         ? player.team
         : null,
     [source]
@@ -48,20 +55,27 @@ export default function SmallCard({ player }: SmallCardProps) {
   }, [source]);
 
   const dispatch = useDispatch();
+
   function clickHandler() {
+    if (source && player.id === source.id && player.team === source.team) {
+      dispatch(removeSource());
+      return;
+    }
     if (source) {
-      if(targetValidation()){
-        if(source.team === "blue")
-          dispatch(setBlueTeamAction({target: player, source}))
-        else dispatch(setRedTeamAction({target: player, source}))
+      if (targetValidation()) {
+        if (source.team === "blue")
+          dispatch(setBlueTeamAction({ target: player, source }));
+        else dispatch(setRedTeamAction({ target: player, source }));
         dispatch(removeSource());
       }
-
     } else {
+      if (player.paralyzed) return;
       if (TARGET_UNITS.includes(playerType)) {
         dispatch(setSource(player));
       } else {
-        dispatch(setRedTeamAction({source: player}))
+        if (player.team === "blue")
+          dispatch(setBlueTeamAction({ source: player }));
+        else dispatch(setRedTeamAction({ source: player }));
       }
     }
   }
@@ -73,7 +87,10 @@ export default function SmallCard({ player }: SmallCardProps) {
         source={sourceValidation()}
         target={targetValidation()}
       >
-        <DeadIndicator dead={player.HP === 0}></DeadIndicator>
+        <DeadIndicator
+          dead={player.HP === 0}
+          paralyzed={player.paralyzed}
+        ></DeadIndicator>
         <SmallCardImg alt={player.name} src={player.img} />
         <InfoWrapper>
           <p>Name: {player.name}</p>

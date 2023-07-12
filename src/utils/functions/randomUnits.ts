@@ -55,3 +55,9 @@ function getRandomUnit(id: number, team: Team): Unit {
 export function getRandomNumber(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min) + min);
 }
+
+export function chooseOrder(blueUnit: Unit, redUnit: Unit) {
+  if (blueUnit.initiative > redUnit.initiative) return 1;
+  else if (blueUnit.initiative < redUnit.initiative) return 0;
+  else return getRandomNumber(0, 2);
+}

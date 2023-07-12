@@ -8,15 +8,18 @@ import {
 } from "./styles";
 import { Unit } from "../../utils/interfaces";
 import { UI_KIT } from "../../UI";
-import { useDispatch } from "react-redux";
-import { setHelperText } from "../../store/gameSlice";
+
 import { HELPER_TEXT } from "../../utils/constants";
 
-export default function FullCard({ player }: { player: Unit }) {
+interface FullCardProps {
+  player: Unit;
+  setHelperText: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export default function FullCard({ player, setHelperText }: FullCardProps) {
   const playerType: string = Object.getPrototypeOf(player.constructor).name;
-  const dispatch = useDispatch();
   function onHover() {
-    dispatch(setHelperText(playerType + ": " + HELPER_TEXT[playerType]));
+    setHelperText(playerType + ": " + HELPER_TEXT[playerType]);
   }
   return (
     <>

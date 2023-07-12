@@ -1,14 +1,18 @@
 import { Action, IUnit, Team, Unit } from "../interfaces";
 
-export class Range extends Unit {
+export abstract class Range extends Unit {
+  fullDamage: number;
+  halfDamage: number;
   damage: number;
 
   constructor(object: IUnit, damage: number, id: number, team: Team) {
     super(object, id, team);
-
+    this.fullDamage = damage;
+    this.halfDamage = damage / 2;
     this.damage = damage;
   }
-  action: Action = (redTeam, blueTeam, targetId) => {
+  action: Action = (redTeam, blueTeam, defend, targetId) => {
+    this.damage = defend ? this.halfDamage : this.fullDamage;
     if (this.team === "blue") {
       const newPlayers = redTeam.map((pl) => {
         if (pl.id === targetId) {
@@ -26,6 +30,7 @@ export class Range extends Unit {
     } else {
       const newPlayers = blueTeam.map((pl) => {
         if (pl.id === targetId) {
+          console.log(pl.id);
           pl.HP -= this.damage;
           if (pl.HP < 0) {
             pl.HP = 0;

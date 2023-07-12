@@ -60,12 +60,14 @@ export const InfoWrapper = styled.div`
 
 interface DeadIndicatorProps {
   dead: boolean;
+  paralyzed: boolean;
 }
 
 export const DeadIndicator = styled.div<DeadIndicatorProps>`
-  display: ${({ dead }) => (dead ? "unset" : "none")};
+  display: ${({ dead, paralyzed }) => (dead || paralyzed ? "unset" : "none")};
   position: absolute;
-  background-color: ${UI_KIT.colors["dark-blue"]};
+  background-color: ${({ dead }) =>
+    dead ? UI_KIT.colors["dark-blue"] : UI_KIT.colors["light"]};
   opacity: 70%;
   top: 0;
   left: 0;

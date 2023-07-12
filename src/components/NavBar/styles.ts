@@ -44,3 +44,11 @@ export const ButtonStyled = styled.button`
     background-color: ${UI_KIT.colors["dark"]};
   }
 `;
+
+export const DescriptionText = styled.div`
+  width: 30vw;
+  padding: 8px;
+  background-color: ${UI_KIT.colors["light"]};
+  color: ${UI_KIT.colors["dark"]};
+  font-size: 32px;
+`;
