@@ -69,7 +69,7 @@ export default function SmallCard({ player }: SmallCardProps) {
         dispatch(removeSource());
       }
     } else {
-      if (player.paralyzed) return;
+      if (player.paralyzed || player.HP === 0) return;
       if (TARGET_UNITS.includes(playerType)) {
         dispatch(setSource(player));
       } else {
