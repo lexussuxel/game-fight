@@ -40,6 +40,8 @@ export const UI_KIT: UI_KIT_TYPE = {
     light: "0px 0px 15px 0px #eaeaeaad",
     red: "0px 5px 15px 0px #ff3c38",
     blue: "0px 5px 15px 0px #064789",
+    green :"0px 5px 15px 0px #94FBAB",
+    darkGreen: "0px 5px 15px 0px #24c044"
   },
 };
 
@@ -78,6 +80,10 @@ export const EndRoundButton = styled.button`
   cursor: pointer;
   &:hover {
     background-color: ${UI_KIT.colors["dark-blue"]};
+  }
+  &:disabled{
+    cursor: not-allowed;
+    background-color: ${UI_KIT.colors["main"]};
   }
 `;
 

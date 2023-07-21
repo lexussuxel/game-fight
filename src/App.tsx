@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import NavBar from "./components/NavBar";
 import {
   AppWrapper,
@@ -10,26 +10,51 @@ import {
 import Battlefield from "./components/Battlefield";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./store";
-import { endRound } from "./store/gameSlice";
+import {  attack, init, defend } from "./store/gameSlice";
+import { HEAL_CLASSES, TARGET_CLASSES } from "./utils/constants";
+import { Paralyzer } from "./utils/typeClasses";
 
 function App() {
-  const round = useSelector((state: RootState) => state.gameSlice.round);
+  const {round, source, currentTarget} = useSelector((state: RootState) => state.gameSlice);
   const [helperText, setHelperText] = useState("");
   const dispatch = useDispatch();
-  function endRoundHandler() {
-    dispatch(endRound());
+  useEffect(()=>{
+    dispatch(init())
+  },[])
+  const buttonText = useCallback(()=>{
+    if(HEAL_CLASSES.some((healClass)=> source instanceof healClass))
+      return "Heal"
+    else if(source instanceof Paralyzer)
+      return "Paralyze"
+    return "Attack"
+  },[source])
+  const attackButtonDisabled = useCallback(()=>{
+    if(!source?.paralyzed)
+      if(!currentTarget && TARGET_CLASSES.some((unitClass) => source instanceof unitClass))
+      return true
+    return false
+
+  }, [source, currentTarget])
+
+  function attackButtonHandler(){
+    dispatch(attack())
   }
+  function defendButtonHandler(){
+    dispatch(defend())
+  }
+
   return (
     <AppWrapper>
       <RoundWrapper>
         <RoundCounter>
           <p>{round}</p>
         </RoundCounter>
-        <EndRoundButton onClick={endRoundHandler}>End Round</EndRoundButton>
+        <EndRoundButton onClick={attackButtonHandler} disabled={attackButtonDisabled()}>{buttonText()}</EndRoundButton>
+        <EndRoundButton onClick={defendButtonHandler}>Defend</EndRoundButton>
       </RoundWrapper>
-      <NavBar id={1} setHelperText={setHelperText} />
+      <NavBar id={0} setHelperText={setHelperText} />
       <Battlefield />
-      <NavBar id={2} setHelperText={setHelperText} />
+      <NavBar id={1} setHelperText={setHelperText} />
       <HelperTextWrapper>{helperText}</HelperTextWrapper>
     </AppWrapper>
   );

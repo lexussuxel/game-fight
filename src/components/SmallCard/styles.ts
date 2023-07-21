@@ -10,31 +10,40 @@ export const SmallCardWrapper = styled.div`
 
 interface CardProps {
   dead: boolean;
-  source: string | null;
-  target: string | null | undefined;
+  source: number | null | undefined;
+  target: number | null | undefined;
+  isSource: boolean;
 }
 
-function hoverCardValidation(dead: boolean, target: string | null | undefined) {
-  if (dead) return "unset";
-  if (target) return UI_KIT.boxShadow[target];
-  else if (target === null) return "unset";
-  return UI_KIT.boxShadow["light"];
+function hoverCardValidation(source: number| null|undefined, target: number|null|undefined, dead: boolean, isSource: boolean) {
+  if(target !== null && target !== undefined && !dead){
+    if(target === source){
+      return isSource? UI_KIT.boxShadow["darkGreen"]:UI_KIT.boxShadow["green"] 
+    }else if(target === 100)
+      return UI_KIT.boxShadow["HealerMass"]
+    else return UI_KIT.boxShadow["red"] 
+  }
+ 
+  return "unset"
 }
 
 export const CardWrapper = styled.div<CardProps>`
   background-color: ${({ dead }) =>
     dead ? UI_KIT.colors["secondary"] : UI_KIT.colors["light"]};
   width: 100%;
-  height: 100%;
+  transform: ${({isSource})=>isSource?"scale(1.1, 1.1)":"unset"};
+  z-index: ${({isSource})=>isSource?"1":"unset"};
+  max-height: 100%;
   display: flex;
   flex-direction: row;
   padding: 8px;
   box-sizing: border-box;
   column-gap: 8px;
   position: relative;
-  box-shadow: ${({ source }) => (source ? UI_KIT.boxShadow[source] : "unset")};
-  &:hover {
-    box-shadow: ${({ dead, target }) => hoverCardValidation(dead, target)};
+  transition: transform 0.3s ease-in-out, box-shadow 0.5s ease-in-out;
+  box-shadow: ${({ source, target, dead, isSource }) => hoverCardValidation(source, target, dead, isSource)};
+  &:hover{
+    cursor: ${({target, isSource})=>(target=== 0 || target) && !isSource?"pointer":"not-allowed"};
   }
 `;
 
@@ -64,7 +73,8 @@ interface DeadIndicatorProps {
 }
 
 export const DeadIndicator = styled.div<DeadIndicatorProps>`
-  display: ${({ dead, paralyzed }) => (dead || paralyzed ? "unset" : "none")};
+  max-height: ${({ dead, paralyzed }) => (dead || paralyzed ? "300px" : "0")};
+  transition: max-height 2s;
   position: absolute;
   background-color: ${({ dead }) =>
     dead ? UI_KIT.colors["dark-blue"] : UI_KIT.colors["light"]};

@@ -1,15 +1,11 @@
 import React from "react";
 import {
-  ButtonStyled,
-  ButtonsWrapper,
-  DescriptionText,
   NavWrapper,
   PlayersWrapper,
 } from "./styles";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import FullCard from "../FullCard";
-import { setBlueTeamDefend, setRedTeamDefend } from "../../store/gameSlice";
 
 interface NavBarProps {
   setHelperText: React.Dispatch<React.SetStateAction<string>>;
@@ -18,27 +14,14 @@ interface NavBarProps {
 
 export default function NavBar({ id, setHelperText }: NavBarProps) {
   const players = useSelector((state: RootState) =>
-    id === 1 ? state.gameSlice.blueTeam : state.gameSlice.redTeam
+     state.gameSlice.players.slice(6 * id, 6 * (id+1))
   );
-  const text = useSelector((state: RootState) =>
-    id === 1
-      ? state.gameSlice.blueUnitActionText
-      : state.gameSlice.redUnitActionText
-  );
-  const dispatch = useDispatch();
 
-  function buttonClickHandler() {
-    dispatch(id === 1 ? setBlueTeamDefend() : setRedTeamDefend());
-  }
   return (
-    <NavWrapper reverse={id !== 1}>
-      <ButtonsWrapper>
-        <ButtonStyled onClick={buttonClickHandler}>Defend</ButtonStyled>
-      </ButtonsWrapper>
-      <DescriptionText>{text}</DescriptionText>
+    <NavWrapper reverse={id === 1}>
       <PlayersWrapper>
-        {players.map((player, i) => (
-          <FullCard key={i} player={player} setHelperText={setHelperText} />
+        {players.map((player) => (
+          <FullCard key={player.id} player={player} setHelperText={setHelperText} />
         ))}
       </PlayersWrapper>
     </NavWrapper>

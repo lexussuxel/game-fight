@@ -8,15 +8,11 @@ import {
   SmallCardWrapper,
 } from "./styles";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  removeSource,
-  setBlueTeamAction,
-  setRedTeamAction,
-  setSource,
-} from "../../store/gameSlice";
 import { RootState } from "../../store";
-import { TARGET_UNITS } from "../../utils/constants";
-import { blueTeamValidation, redTeamValidation } from "../../utils/functions";
+import { meleeValidation } from "../../utils/functions";
+import { HealerMass, HealerSingle, Melee } from "../../utils/typeClasses";
+import { TARGET_CLASSES } from "../../utils/constants";
+import { pickTarget } from "../../store/gameSlice";
 
 interface SmallCardProps {
   player: Unit;
@@ -24,68 +20,57 @@ interface SmallCardProps {
 
 export default function SmallCard({ player }: SmallCardProps) {
   const playerType: string = Object.getPrototypeOf(player.constructor).name;
-  const { source, sourceType, blueTeam, redTeam } = useSelector(
+  const { source,  players, currentTarget } = useSelector(
     (state: RootState) => state.gameSlice
   );
 
-  const sourceValidation = useCallback(
-    () =>
-      source?.team === player.team &&
-      source?.id === player.id &&
-      !player.paralyzed
-        ? player.team
-        : null,
-    [source]
-  );
-  const targetValidation = useCallback(() => {
-    if (!source) return undefined;
-    if (sourceType === "HealerSingle") {
-      if (source?.team === player.team) return source.team;
-      return null;
-    } else if (sourceType === "Melee") {
-      if (source.team === "red") {
-        return redTeamValidation(source, player, blueTeam) ? source.team : null;
-      } else {
-        return blueTeamValidation(source, player, redTeam) ? source.team : null;
-      }
-    } else if (source.team !== player.team) {
-      return source.team;
-    }
-    return null;
-  }, [source]);
-
   const dispatch = useDispatch();
 
+
+    const targetValidation = useCallback(()=>{
+      if (!source){return undefined;}
+      if(source.id === player.id)
+        return source.team
+      if(currentTarget?.id === player.id)
+        return 100
+      if (source instanceof HealerSingle) {
+        if (source.team === player.team) {return source.team;}
+        return null;
+      } 
+      else if (source instanceof Melee) {
+        return meleeValidation(source, player, players) ? player.team : null;
+  
+      } 
+      else if (source instanceof HealerMass ){
+        if(player.team === source.team){
+          return player.team
+        }
+
+      } 
+      else if (source.team !== player.team) {
+        return player.team;
+      }
+      return null;
+    },[source, currentTarget])
+
+
+
   function clickHandler() {
-    if (source && player.id === source.id && player.team === source.team) {
-      dispatch(removeSource());
-      return;
-    }
-    if (source) {
-      if (targetValidation()) {
-        if (source.team === "blue")
-          dispatch(setBlueTeamAction({ target: player, source }));
-        else dispatch(setRedTeamAction({ target: player, source }));
-        dispatch(removeSource());
-      }
-    } else {
-      if (player.paralyzed || player.HP === 0) return;
-      if (TARGET_UNITS.includes(playerType)) {
-        dispatch(setSource(player));
-      } else {
-        if (player.team === "blue")
-          dispatch(setBlueTeamAction({ source: player }));
-        else dispatch(setRedTeamAction({ source: player }));
-      }
+    if(TARGET_CLASSES.some((unitClass)=> source instanceof unitClass) ){
+      if(targetValidation() && player.id !== source?.id)
+        dispatch(pickTarget(player))
+
     }
   }
+
   return (
     <SmallCardWrapper>
       <CardWrapper
         onClick={clickHandler}
         dead={player.HP === 0}
-        source={sourceValidation()}
+        source={source?.team}
         target={targetValidation()}
+        isSource={source?.id === player.id}
       >
         <DeadIndicator
           dead={player.HP === 0}
@@ -95,7 +80,7 @@ export default function SmallCard({ player }: SmallCardProps) {
         <InfoWrapper>
           <p>Name: {player.name}</p>
           <p>Type: {playerType}</p>
-          <p>HP: {player.HP}</p>
+          <p>HP: {player.HP}/{player.maxHP}</p>
         </InfoWrapper>
       </CardWrapper>
     </SmallCardWrapper>

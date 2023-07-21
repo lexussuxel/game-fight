@@ -8,6 +8,7 @@ import archimage from "../assets/archimage.png";
 import monk from "../assets/monk.png";
 import bishop from "../assets/bishop.png";
 import sirena from "../assets/sirena.png";
+import { HealerMass, HealerSingle, Melee, Paralyzer, Range } from "./typeClasses";
 
 export const UNITS: Array<IUnit> = [
   {
@@ -79,4 +80,5 @@ export const HELPER_TEXT: HelperTextType = {
     " Heals a single target. Can heal any ally unit regardless of positioning",
 };
 
-export const TARGET_UNITS = ["Melee", "Range", "Paralyzer", "HealerSingle"];
+export const TARGET_CLASSES = [Melee, Range, Paralyzer, HealerSingle]
+export const HEAL_CLASSES = [HealerSingle, HealerMass]

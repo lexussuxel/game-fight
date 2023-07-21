@@ -1,13 +1,14 @@
 import { Mage } from "../typeClasses";
 import { UNITS } from "../constants";
-import { Description, Team } from "../interfaces";
+import { Description } from "../interfaces";
+
 
 export class Archimage extends Mage {
-  constructor(id: number, team: Team) {
-    super(UNITS[5], 30, id, team);
+  constructor(id: number) {
+    super(UNITS[5], 30, id);
   }
 
   generateActionDescription: Description = (source) => {
-    return `${source.name} from ${source.team} team attacks all enemy team!`;
+    return `${source.name} from ${""} team attacks all enemy team!`;
   };
 }

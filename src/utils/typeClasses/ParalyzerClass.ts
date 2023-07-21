@@ -1,32 +1,14 @@
-import { Unit, IUnit, Action, Team } from "../interfaces";
+import { Unit, IUnit, Action } from "../interfaces";
 
 export abstract class Paralyzer extends Unit {
-  constructor(object: IUnit, id: number, team: Team) {
-    super(object, id, team);
+  constructor(object: IUnit, id: number) {
+    super(object, id);
   }
-  action: Action = (redTeam, blueTeam, defend, targetId) => {
-    if (this.team === "blue") {
-      const newPlayers = redTeam.map((pl) => {
-        if (pl.id === targetId) {
-          pl.paralyzed = true;
-        }
-        return pl;
-      });
-      return {
-        blueTeam,
-        redTeam: newPlayers,
-      };
-    } else {
-      const newPlayers = blueTeam.map((pl) => {
-        if (pl.id === targetId) {
-          pl.paralyzed = true;
-        }
-        return pl;
-      });
-      return {
-        blueTeam: newPlayers,
-        redTeam,
-      };
-    }
+  action: Action = (players, targetUnit) => {
+    return players.map((player)=>{
+      if(player.id === targetUnit.id && targetUnit.team !== this.team)
+        player.paralyzed = true
+      return player
+    })
   };
 }

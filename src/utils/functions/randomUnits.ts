@@ -1,4 +1,4 @@
-import { Team, Unit } from "../interfaces";
+import {  Unit } from "../interfaces";
 import {
   Archimage,
   Bandit,
@@ -11,43 +11,43 @@ import {
   SkeletonMage,
 } from "../unitClasses";
 
-export function randomSetPlayers(team: Team): Array<Unit> {
+export function randomSetPlayers(): Array<Unit> {
   const players = [];
-  for (let i = 0; i < 6; i++) {
-    players.push(getRandomUnit(i, team));
+  for (let i = 0; i < 12; i++) {
+    players.push(getRandomUnit(i));
   }
   return players;
 }
 
-function getRandomUnit(id: number, team: Team): Unit {
+function getRandomUnit(id: number): Unit {
   const number = getRandomNumber(0, 9);
   switch (number) {
     case 0: {
-      return new Skeleton(id, team);
+      return new Skeleton(id);
     }
     case 1: {
-      return new Centaur(id, team);
+      return new Centaur(id);
     }
     case 2: {
-      return new Bandit(id, team);
+      return new Bandit(id);
     }
     case 3: {
-      return new Elf(id, team);
+      return new Elf(id);
     }
     case 4: {
-      return new SkeletonMage(id, team);
+      return new SkeletonMage(id);
     }
     case 5: {
-      return new Archimage(id, team);
+      return new Archimage(id);
     }
     case 6: {
-      return new Monk(id, team);
+      return new Monk(id);
     }
     case 7: {
-      return new Bishop(id, team);
+      return new Bishop(id);
     }
     default: {
-      return new Sirena(id, team);
+      return new Sirena(id);
     }
   }
 }
@@ -56,8 +56,3 @@ export function getRandomNumber(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-export function chooseOrder(blueUnit: Unit, redUnit: Unit) {
-  if (blueUnit.initiative > redUnit.initiative) return 1;
-  else if (blueUnit.initiative < redUnit.initiative) return 0;
-  else return getRandomNumber(0, 2);
-}

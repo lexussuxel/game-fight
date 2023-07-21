@@ -1,160 +1,85 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Game } from "../utils/gameInterface";
-import { chooseOrder, randomSetPlayers } from "../utils/functions";
+import {  meleeValidation, randomSetPlayers, targetValidation } from "../utils/functions";
 import { Unit } from "../utils/interfaces";
-import { Defend } from "../utils/typeClasses/defendClass";
+import { newRound, nextSource, setOrder } from "../utils/functions/setOrder";
+import { Melee } from "../utils/typeClasses";
 
 const initialState: Game = {
-  blueTeam: randomSetPlayers("blue"),
-  redTeam: randomSetPlayers("red"),
+  players: randomSetPlayers(),
+  order:[],
   round: 1,
-  redTeamDefend: false,
-  blueTeamDefend: false,
   source: null,
+  sourceNum: 0,
   sourceType: null,
-  blueUnitActionText: null,
-  redUnitActionText: null,
-  blueUnitAttackSource: null,
-  redUnitAttackSource: null,
-  redUnitAttackTarget: null,
-  blueUnitAttackTarget: null,
+  currentTarget: null,
 };
 
-interface ClickProps {
-  source: Unit;
-  target?: Unit;
-  defend?: boolean;
-}
 
 export const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
-    setRedTeamAction: (state, action: PayloadAction<ClickProps>) => {
-      const { source, target, defend } = action.payload;
-      if (defend) null;
-      else {
-        state.redUnitAttackSource = source;
-        state.redUnitAttackTarget = target || null;
-        state.redUnitActionText = source.generateActionDescription(
-          source,
-          target || source
-        );
+    init: (state) =>{
+      state.order = setOrder(state.players)
+      state.source = state.players[state.order[state.sourceNum]]
+      state.sourceType = Object.getPrototypeOf(state.source.constructor).name;
+    },
+    pickTarget: (state, action: PayloadAction<Unit>)=>{
+      if(state.source instanceof Melee)
+        if(!meleeValidation(state.source, action.payload, state.players))
+          return;
+
+      if(targetValidation(action.payload)){
+        state.currentTarget = action.payload
       }
+      
     },
-    setBlueTeamAction: (state, action: PayloadAction<ClickProps>) => {
-      const { source, target, defend } = action.payload;
-      if (defend) null;
-      else {
-        state.blueUnitAttackSource = source;
-        state.blueUnitAttackTarget = target || null;
-        state.blueUnitActionText = source.generateActionDescription(
-          source,
-          target || source
-        );
+    attack: (state)=>{
+      if(state.source){
+        if(state.currentTarget)
+          state.players = state.source.preAction(state.players, state.currentTarget)
+        else 
+          state.players = state.source.preAction(state.players, state.players[0])
       }
-    },
-    setSource: (state, action: PayloadAction<Unit>) => {
-      state.source = action.payload;
-      state.sourceType = Object.getPrototypeOf(action.payload.constructor).name;
-    },
-    removeSource: (state) => {
-      state.source = null;
-    },
-    endRound: (state) => {
-      if (state.blueTeamDefend && state.redTeamDefend) {
-        state.blueTeamDefend = false;
-        state.redTeamDefend = false;
-        state.redUnitActionText = "";
-        state.blueUnitActionText = "";
-        return;
+      const {players, sourceNum} = nextSource(state.players, state.order, state.sourceNum)
+      state.players = players
+      if(state.sourceNum - sourceNum > 0){
+        state.round += 1
+        state.players = newRound(state.players)
       }
-      if (!state.blueUnitAttackSource) {
-        state.blueUnitActionText = "Set action for team";
-        return;
-      } else if (!state.redUnitAttackSource) {
-        state.redUnitActionText = "Set action for team";
-        return;
-      } else {
-        state.blueTeam = state.blueTeam.map((pl) => {
-          pl.paralyzed = false;
-          return pl;
-        });
-        state.redTeam = state.redTeam.map((pl) => {
-          pl.paralyzed = false;
-          return pl;
-        });
-        if (
-          chooseOrder(state.blueUnitAttackSource, state.redUnitAttackSource)
-        ) {
-          const blueResult = state.blueUnitAttackSource.preAction(
-            state.redTeam,
-            state.blueTeam,
-            state.redTeamDefend,
-            state.blueUnitAttackTarget?.id || 0
-          );
-          state.blueTeam = blueResult.blueTeam;
-          state.redTeam = blueResult.redTeam;
-          const redResult = state.redUnitAttackSource.preAction(
-            state.redTeam,
-            state.blueTeam,
-            state.blueTeamDefend,
-            state.redUnitAttackTarget?.id || 0
-          );
-          state.blueTeam = redResult.blueTeam;
-          state.redTeam = redResult.redTeam;
-        } else {
-          const redResult = state.redUnitAttackSource.preAction(
-            state.redTeam,
-            state.blueTeam,
-            state.blueTeamDefend,
-            state.redUnitAttackTarget?.id || 0
-          );
-          state.blueTeam = redResult.blueTeam;
-          state.redTeam = redResult.redTeam;
-          const blueResult = state.blueUnitAttackSource.preAction(
-            state.redTeam,
-            state.blueTeam,
-            state.redTeamDefend,
-            state.blueUnitAttackTarget?.id || 0
-          );
-          state.blueTeam = blueResult.blueTeam;
-          state.redTeam = blueResult.redTeam;
+      state.sourceNum = sourceNum
+      state.source = state.players[state.order[state.sourceNum]]
+      state.currentTarget = null;
+
+      
+    },
+    defend: (state)=>{
+      state.players = state.players.map((player)=> {
+        if(player.id === state.source?.id){
+          player.defend = true
         }
+        return player
+      })
+      const {players, sourceNum} = nextSource(state.players, state.order, state.sourceNum)
+      state.players = players
+      if(state.sourceNum - sourceNum > 0){
+        state.round += 1
+        state.players = newRound(state.players)
       }
-      state.round += 1;
-      state.blueUnitActionText = "";
-      state.redUnitActionText = "";
-      state.blueUnitAttackSource = null;
-      state.blueUnitAttackTarget = null;
-      state.redUnitAttackSource = null;
-      state.redUnitAttackTarget = null;
-      state.blueTeamDefend = false;
-      state.redTeamDefend = false;
-    },
-    setBlueTeamDefend: (state) => {
-      state.blueTeamDefend = true;
-      state.blueUnitAttackSource = new Defend();
-      state.blueUnitAttackTarget = null;
-      state.blueUnitActionText = "Blue team defends!";
-    },
-    setRedTeamDefend: (state) => {
-      state.redTeamDefend = true;
-      state.redUnitAttackSource = new Defend();
-      state.redUnitAttackTarget = null;
-      state.redUnitActionText = "Red team defends!";
-    },
+      state.sourceNum = sourceNum
+      state.source = state.players[state.order[state.sourceNum]]
+      state.currentTarget = null;
+    }
+    
   },
 });
 
 export const {
-  setSource,
-  removeSource,
-  setRedTeamAction,
-  setBlueTeamAction,
-  endRound,
-  setBlueTeamDefend,
-  setRedTeamDefend,
+  init,
+  pickTarget,
+  attack,
+  defend
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

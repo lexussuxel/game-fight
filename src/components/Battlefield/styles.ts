@@ -11,10 +11,29 @@ export const BattlefiledWrapper = styled.div`
   row-gap: 10px;
 `;
 
-export const TeamWrapper = styled.div`
+interface TeamWrapperProps{
+  hoverColor: "red" | "green" | undefined;
+  team: number;
+  source: number | undefined;
+}
+
+function TeamWrapperHover(team: number, source: number|undefined, hoverColor: string | undefined){
+  if(source && hoverColor){
+    if(hoverColor === "red" && team !== source)
+      return "inset " + UI_KIT.boxShadow["red"]
+
+    if(hoverColor === "green" && team === source)
+      return "inset " + UI_KIT.boxShadow["green"]
+  }
+  return "unset"
+}
+
+export const TeamWrapper = styled.div<TeamWrapperProps>`
   display: flex;
   flex-wrap: wrap;
   height: 100%;
+  transition: box-shadow 0.5s ease-in-out;
+  box-shadow: ${({team, source, hoverColor})=> TeamWrapperHover(team, source, hoverColor)};
 `;
 
 export const Divider = styled.hr`

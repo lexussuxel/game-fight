@@ -5,7 +5,6 @@ export interface IUnit {
   img: string;
 }
 
-export type Team = "red" | "blue";
 
 export abstract class Unit implements IUnit {
   readonly maxHP: number;
@@ -15,9 +14,10 @@ export abstract class Unit implements IUnit {
   img: string;
   id: number;
   paralyzed: boolean;
-  team: Team;
+  defend = false;
+  team: number;
 
-  constructor(object: IUnit, id: number, team: Team) {
+  constructor(object: IUnit, id: number) {
     this.maxHP = object.maxHP;
     this.HP = object.maxHP;
     this.initiative = object.initiative;
@@ -25,15 +25,22 @@ export abstract class Unit implements IUnit {
     this.img = object.img;
     this.id = id;
     this.paralyzed = false;
-    this.team = team;
+    this.team = Math.floor(id / 6) + 1
+  }
+
+  defendSelf(){
+    this.defend = true;
   }
 
   abstract action: Action;
-  preAction: Action = (redTeam, blueTeam, defend, targetId) => {
-    if (this.HP !== 0 && !this.paralyzed) {
-      return this.action(redTeam, blueTeam, defend, targetId);
-    } else if (this.paralyzed) this.paralyzed = false;
-    return { redTeam, blueTeam };
+  preAction: Action = (players, targetUnit) => {
+    if (this.HP !== 0 && !this.paralyzed)
+      return this.action(players.map((player)=> {
+        if(player.id === this.id)
+          player.defend = false
+        return player
+      }), targetUnit);
+      else return players
   };
   abstract generateActionDescription: Description;
 }
@@ -50,8 +57,6 @@ export interface ActionReturn {
 export type Description = (source: Unit, targetId: Unit) => string;
 
 export type Action = (
-  redTeam: Array<Unit>,
-  blueTeam: Array<Unit>,
-  defend: boolean,
-  targetId: number
-) => ActionReturn;
+  players: Array<Unit>,
+  targetUnit: Unit
+) => Array<Unit>;
