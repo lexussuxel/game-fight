@@ -9,19 +9,18 @@ import FullCard from "../FullCard";
 
 interface NavBarProps {
   setHelperText: React.Dispatch<React.SetStateAction<string>>;
-  id: number;
 }
 
-export default function NavBar({ id, setHelperText }: NavBarProps) {
-  const players = useSelector((state: RootState) =>
-     state.gameSlice.players.slice(6 * id, 6 * (id+1))
+export default function NavBar({ setHelperText }: NavBarProps) {
+  const {players, order} = useSelector((state: RootState) =>
+     state.gameSlice
   );
 
   return (
-    <NavWrapper reverse={id === 1}>
+    <NavWrapper>
       <PlayersWrapper>
-        {players.map((player) => (
-          <FullCard key={player.id} player={player} setHelperText={setHelperText} />
+        {order.map((player) => (
+          <FullCard key={players[player].id} player={players[player]} setHelperText={setHelperText} />
         ))}
       </PlayersWrapper>
     </NavWrapper>

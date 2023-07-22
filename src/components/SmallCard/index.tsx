@@ -20,7 +20,7 @@ interface SmallCardProps {
 
 export default function SmallCard({ player }: SmallCardProps) {
   const playerType: string = Object.getPrototypeOf(player.constructor).name;
-  const { source,  players, currentTarget } = useSelector(
+  const { source,  players, currentTarget, attackNow } = useSelector(
     (state: RootState) => state.gameSlice
   );
 
@@ -31,8 +31,6 @@ export default function SmallCard({ player }: SmallCardProps) {
       if (!source){return undefined;}
       if(source.id === player.id)
         return source.team
-      if(currentTarget?.id === player.id)
-        return 100
       if (source instanceof HealerSingle) {
         if (source.team === player.team) {return source.team;}
         return null;
@@ -66,6 +64,8 @@ export default function SmallCard({ player }: SmallCardProps) {
   return (
     <SmallCardWrapper>
       <CardWrapper
+        shake={currentTarget?.id === player.id && attackNow}
+        isTarget={currentTarget?.id === player.id}
         onClick={clickHandler}
         dead={player.HP === 0}
         source={source?.team}

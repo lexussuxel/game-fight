@@ -26,7 +26,7 @@ export default function FullCard({ player, setHelperText }: FullCardProps) {
   return (
     <>
       <FullCardWrapper
-        type={UI_KIT.boxShadow[playerType]}
+        enemy={source?.team === player.team}
         onMouseEnter={onHover}
         source={player.id === source?.id }
       >
@@ -35,9 +35,9 @@ export default function FullCard({ player, setHelperText }: FullCardProps) {
         <PStyled>HP:{player.HP}/{player.maxHP}</PStyled>
         <PStyled>Type: {playerType}</PStyled>
         <PercentHP
+          enemy={source?.team === player.team}
           source={player.id === source?.id}
           percent={(player.HP / player.maxHP) * 100}
-          type={UI_KIT.colors[playerType]}
         ></PercentHP>
       </FullCardWrapper>
     </>

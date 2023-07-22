@@ -8,4 +8,5 @@ export interface Game {
   sourceNum: number;
   currentTarget: Unit | null;
   sourceType: string | null;
+  attackNow: boolean;
 }

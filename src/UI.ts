@@ -22,21 +22,11 @@ export const UI_KIT: UI_KIT_TYPE = {
     secondary: "#73628A",
     "dark-blue": "#313D5A",
     dark: "#3D315B",
-    Melee: "#8E5572",
-    Paralyzer: "#D8E2DC",
-    HealerMass: "#EFE9AE",
-    HealerSingle: "#BBBE64",
-    Range: "#6DAEDB",
-    Mage: "#FF928B",
+    red: "#ff3c38",
+    green :"#94FBAB",
   },
   boxShadow: {
     grey: "-3px 5px 15px 0px #7A7A7A40",
-    Melee: "0px 0px 19px 4px #8E5572",
-    Paralyzer: "0px 0px 19px 4px #D8E2DC",
-    HealerMass: "0px 0px 19px 4px #EFE9AE",
-    HealerSingle: "0px 0px 19px 4px #BBBE64",
-    Range: "0px 0px 19px 4px #6DAEDB",
-    Mage: "0px 0px 19px 4px #FF928B",
     light: "0px 0px 15px 0px #eaeaeaad",
     red: "0px 5px 15px 0px #ff3c38",
     blue: "0px 5px 15px 0px #064789",
@@ -95,7 +85,6 @@ export const HelperTextWrapper = styled.div`
   background-color: ${UI_KIT.colors["light"]};
   color: ${UI_KIT.colors["dark"]};
   width: 10vw;
-  height: 25vh;
   padding: 8px;
   font-family: "Indie Flower", cursive;
   box-shadow: ${UI_KIT.boxShadow["grey"]};

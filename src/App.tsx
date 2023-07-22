@@ -10,12 +10,12 @@ import {
 import Battlefield from "./components/Battlefield";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./store";
-import {  attack, init, defend } from "./store/gameSlice";
+import {  attack, init, defend, preAttack } from "./store/gameSlice";
 import { HEAL_CLASSES, TARGET_CLASSES } from "./utils/constants";
 import { Paralyzer } from "./utils/typeClasses";
 
 function App() {
-  const {round, source, currentTarget} = useSelector((state: RootState) => state.gameSlice);
+  const {round, source, currentTarget, attackNow} = useSelector((state: RootState) => state.gameSlice);
   const [helperText, setHelperText] = useState("");
   const dispatch = useDispatch();
   useEffect(()=>{
@@ -37,7 +37,13 @@ function App() {
   }, [source, currentTarget])
 
   function attackButtonHandler(){
-    dispatch(attack())
+    console.log(attackNow)
+    dispatch(preAttack())
+    console.log(attackNow)
+    setTimeout(()=>{
+      dispatch(attack())
+    }, 200)
+
   }
   function defendButtonHandler(){
     dispatch(defend())
@@ -52,9 +58,8 @@ function App() {
         <EndRoundButton onClick={attackButtonHandler} disabled={attackButtonDisabled()}>{buttonText()}</EndRoundButton>
         <EndRoundButton onClick={defendButtonHandler}>Defend</EndRoundButton>
       </RoundWrapper>
-      <NavBar id={0} setHelperText={setHelperText} />
+      <NavBar setHelperText={setHelperText} />
       <Battlefield />
-      <NavBar id={1} setHelperText={setHelperText} />
       <HelperTextWrapper>{helperText}</HelperTextWrapper>
     </AppWrapper>
   );

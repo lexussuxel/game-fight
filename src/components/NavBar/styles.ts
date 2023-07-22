@@ -1,15 +1,12 @@
 import styled from "@emotion/styled";
 import { UI_KIT } from "../../UI";
 
-interface NavWrapperProps {
-  reverse: boolean;
-}
 
-export const NavWrapper = styled.div<NavWrapperProps>`
+export const NavWrapper = styled.div`
   height: 24vh;
   display: flex;
-  flex-direction: ${({ reverse }) => (!reverse ? "row" : "row-reverse")};
-  width: 100%;
+  flex-direction: row;
+  max-width: 100%;
   padding: 8px;
   box-sizing: border-box;
   justify-content: space-between;

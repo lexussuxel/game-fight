@@ -13,6 +13,7 @@ const initialState: Game = {
   sourceNum: 0,
   sourceType: null,
   currentTarget: null,
+  attackNow: false
 };
 
 
@@ -50,6 +51,7 @@ export const gameSlice = createSlice({
       }
       state.sourceNum = sourceNum
       state.source = state.players[state.order[state.sourceNum]]
+      state.attackNow = false;
       state.currentTarget = null;
 
       
@@ -70,6 +72,9 @@ export const gameSlice = createSlice({
       state.sourceNum = sourceNum
       state.source = state.players[state.order[state.sourceNum]]
       state.currentTarget = null;
+    },
+    preAttack:(state)=>{
+      state.attackNow = true;
     }
     
   },
@@ -79,7 +84,8 @@ export const {
   init,
   pickTarget,
   attack,
-  defend
+  defend,
+  preAttack
 } = gameSlice.actions;
 
 export default gameSlice.reducer;
