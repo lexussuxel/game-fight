@@ -1,4 +1,4 @@
-import { Action, IUnit,  Unit } from "../interfaces";
+import { Action, IUnit, Unit } from "../interfaces";
 
 export abstract class HealerMass extends Unit {
   heal: number;
@@ -9,14 +9,12 @@ export abstract class HealerMass extends Unit {
   }
 
   action: Action = (players) => {
-    return players.map((player)=>{
-      if(player.team === this.team){
-        if(player.HP !== 0)
-        player.HP += this.heal
-        if(player.HP > player.maxHP)
-          player.HP = player.maxHP
+    return players.map((player) => {
+      if (player.team === this.team) {
+        if (player.HP !== 0) player.HP += this.heal;
+        if (player.HP > player.maxHP) player.HP = player.maxHP;
       }
-      return player
-    })
+      return player;
+    });
   };
 }

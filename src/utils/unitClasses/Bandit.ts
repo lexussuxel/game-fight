@@ -8,6 +8,8 @@ export class Bandit extends Range {
   }
 
   generateActionDescription: Description = (source, target) => {
-    return `${source.name} from ${""} attacks ${target.name} on position ${target.id} from ${""} team!`;
+    return `${source.name} from ${""} attacks ${target.name} on position ${
+      target.id
+    } from ${""} team!`;
   };
 }

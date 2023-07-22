@@ -7,6 +7,8 @@ export class Elf extends Range {
     super(UNITS[3], 45, id);
   }
   generateActionDescription: Description = (source, target) => {
-    return `${source.name} from ${""} attacks ${target.name} on position ${target.id} from ${""} team!`;
+    return `${source.name} from ${""} attacks ${target.name} on position ${
+      target.id
+    } from ${""} team!`;
   };
 }

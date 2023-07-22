@@ -20,44 +20,38 @@ interface SmallCardProps {
 
 export default function SmallCard({ player }: SmallCardProps) {
   const playerType: string = Object.getPrototypeOf(player.constructor).name;
-  const { source,  players, currentTarget, attackNow } = useSelector(
+  const { source, players, currentTarget, attackNow } = useSelector(
     (state: RootState) => state.gameSlice
   );
 
   const dispatch = useDispatch();
 
-
-    const targetValidation = useCallback(()=>{
-      if (!source){return undefined;}
-      if(source.id === player.id)
-        return source.team
-      if (source instanceof HealerSingle) {
-        if (source.team === player.team) {return source.team;}
-        return null;
-      } 
-      else if (source instanceof Melee) {
-        return meleeValidation(source, player, players) ? player.team : null;
-  
-      } 
-      else if (source instanceof HealerMass ){
-        if(player.team === source.team){
-          return player.team
-        }
-
-      } 
-      else if (source.team !== player.team) {
-        return player.team;
+  const targetValidation = useCallback(() => {
+    if (!source) {
+      return undefined;
+    }
+    if (source.id === player.id) return source.team;
+    if (source instanceof HealerSingle) {
+      if (source.team === player.team) {
+        return source.team;
       }
       return null;
-    },[source, currentTarget])
-
-
+    } else if (source instanceof Melee) {
+      return meleeValidation(source, player, players) ? player.team : null;
+    } else if (source instanceof HealerMass) {
+      if (player.team === source.team) {
+        return player.team;
+      }
+    } else if (source.team !== player.team) {
+      return player.team;
+    }
+    return null;
+  }, [source, currentTarget]);
 
   function clickHandler() {
-    if(TARGET_CLASSES.some((unitClass)=> source instanceof unitClass) ){
-      if(targetValidation() && player.id !== source?.id)
-        dispatch(pickTarget(player))
-
+    if (TARGET_CLASSES.some((unitClass) => source instanceof unitClass)) {
+      if (targetValidation() && player.id !== source?.id)
+        dispatch(pickTarget(player));
     }
   }
 
@@ -71,6 +65,7 @@ export default function SmallCard({ player }: SmallCardProps) {
         source={source?.team}
         target={targetValidation()}
         isSource={source?.id === player.id}
+        defend={player.defend}
       >
         <DeadIndicator
           dead={player.HP === 0}
@@ -80,7 +75,9 @@ export default function SmallCard({ player }: SmallCardProps) {
         <InfoWrapper>
           <p>Name: {player.name}</p>
           <p>Type: {playerType}</p>
-          <p>HP: {player.HP}/{player.maxHP}</p>
+          <p>
+            HP: {player.HP}/{player.maxHP}
+          </p>
         </InfoWrapper>
       </CardWrapper>
     </SmallCardWrapper>

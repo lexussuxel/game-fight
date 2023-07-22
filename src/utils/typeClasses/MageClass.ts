@@ -12,16 +12,13 @@ export abstract class Mage extends Unit {
     this.damage = damage;
   }
   action: Action = (players) => {
-    return players.map((player)=>{
-      if(player.team !== this.team){
-        if(player.defend)
-          player.HP -= this.halfDamage
-        else 
-          player.HP -= this.fullDamage
-        if(player.HP < 0)
-          player.HP = 0
+    return players.map((player) => {
+      if (player.team !== this.team) {
+        if (player.defend) player.HP -= this.halfDamage;
+        else player.HP -= this.fullDamage;
+        if (player.HP < 0) player.HP = 0;
       }
-      return player
-    })
+      return player;
+    });
   };
 }

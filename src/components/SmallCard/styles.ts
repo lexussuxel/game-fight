@@ -15,27 +15,40 @@ interface CardProps {
   isSource: boolean;
   isTarget: boolean;
   shake: boolean;
+  defend: boolean;
 }
 
-function hoverCardValidation(source: number| null|undefined, target: number|null|undefined, dead: boolean, isSource: boolean, isTarget: boolean) {
-  if(target !== null && target !== undefined && !dead){
-    if(isTarget)
-      return UI_KIT.boxShadow["light"]
-    if(target === source){
-      return isSource? UI_KIT.boxShadow["darkGreen"]:UI_KIT.boxShadow["green"] 
-    }
-    else return UI_KIT.boxShadow["red"] 
+export function hoverCardValidation(
+  source: number | null | undefined,
+  target: number | null | undefined,
+  dead: boolean,
+  isSource: boolean,
+  isTarget: boolean
+) {
+  if (target !== null && target !== undefined && !dead) {
+    if (isTarget) return UI_KIT.boxShadow["blue"];
+    if (target === source) {
+      return isSource
+        ? UI_KIT.boxShadow["darkGreen"]
+        : UI_KIT.boxShadow["green"];
+    } else return UI_KIT.boxShadow["red"];
   }
- 
-  return "unset"
+
+  return "unset";
+}
+
+function backgroundCardValidation(dead: boolean, defend: boolean) {
+  if (dead) return UI_KIT.colors["secondary"];
+  if (defend) return UI_KIT.colors["green"];
+  return UI_KIT.colors["light"];
 }
 
 export const CardWrapper = styled.div<CardProps>`
-  background-color: ${({ dead }) =>
-    dead ? UI_KIT.colors["secondary"] : UI_KIT.colors["light"]};
+  background-color: ${({ dead, defend }) =>
+    backgroundCardValidation(dead, defend)};
   width: 100%;
-  transform: ${({isSource})=>isSource?"scale(1.15, 1.15)":"unset"};
-  z-index: ${({isSource})=>isSource?"1":"unset"};
+  transform: ${({ isSource }) => (isSource ? "scale(1.15, 1.15)" : "unset")};
+  z-index: ${({ isSource }) => (isSource ? "1" : "unset")};
   max-height: 100%;
   display: flex;
   flex-direction: row;
@@ -44,19 +57,31 @@ export const CardWrapper = styled.div<CardProps>`
   column-gap: 8px;
   position: relative;
   transition: transform 0.3s ease-in-out, box-shadow 0.5s ease-in-out;
-  box-shadow: ${({ source, target, dead, isSource, isTarget }) => hoverCardValidation(source, target, dead, isSource, isTarget)};
+  box-shadow: ${({ source, target, dead, isSource, isTarget }) =>
+    hoverCardValidation(source, target, dead, isSource, isTarget)};
   @keyframes tilt-shaking {
-    0% { transform: rotate(0deg); }
-    25% { transform: rotate(5deg); }
-    50% { transform: rotate(0eg); }
-    75% { transform: rotate(-5deg); }
-    100% { transform: rotate(0deg); }
+    0% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(5deg);
+    }
+    50% {
+      transform: rotate(0eg);
+    }
+    75% {
+      transform: rotate(-5deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
   }
-  animation: ${({shake})=>shake?"tilt-shaking 0.2s normal ease-in":"unset"};
-  &:hover{
-    cursor: ${({target, isSource})=>(target=== 0 || target) && !isSource?"pointer":"not-allowed"};
+  animation: ${({ shake }) =>
+    shake ? "tilt-shaking 0.2s normal ease-in" : "unset"};
+  &:hover {
+    cursor: ${({ target, isSource }) =>
+      (target === 0 || target) && !isSource ? "pointer" : "not-allowed"};
   }
-
 `;
 
 export const SmallCardImg = styled.img`

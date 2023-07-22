@@ -1,4 +1,4 @@
-import {  Unit } from "../interfaces";
+import { Unit } from "../interfaces";
 import {
   Archimage,
   Bandit,
@@ -55,4 +55,3 @@ function getRandomUnit(id: number): Unit {
 export function getRandomNumber(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min) + min);
 }
-

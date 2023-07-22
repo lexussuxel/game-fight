@@ -23,15 +23,15 @@ export const UI_KIT: UI_KIT_TYPE = {
     "dark-blue": "#313D5A",
     dark: "#3D315B",
     red: "#ff3c38",
-    green :"#94FBAB",
+    green: "#94FBAB",
   },
   boxShadow: {
     grey: "-3px 5px 15px 0px #7A7A7A40",
     light: "0px 0px 15px 0px #eaeaeaad",
     red: "0px 5px 15px 0px #ff3c38",
     blue: "0px 5px 15px 0px #064789",
-    green :"0px 5px 15px 0px #94FBAB",
-    darkGreen: "0px 5px 15px 0px #24c044"
+    green: "0px 5px 15px 0px #94FBAB",
+    darkGreen: "0px 5px 15px 0px #24c044",
   },
 };
 
@@ -71,7 +71,7 @@ export const EndRoundButton = styled.button`
   &:hover {
     background-color: ${UI_KIT.colors["dark-blue"]};
   }
-  &:disabled{
+  &:disabled {
     cursor: not-allowed;
     background-color: ${UI_KIT.colors["main"]};
   }

@@ -5,7 +5,6 @@ export interface IUnit {
   img: string;
 }
 
-
 export abstract class Unit implements IUnit {
   readonly maxHP: number;
   HP: number;
@@ -25,22 +24,24 @@ export abstract class Unit implements IUnit {
     this.img = object.img;
     this.id = id;
     this.paralyzed = false;
-    this.team = Math.floor(id / 6) + 1
+    this.team = Math.floor(id / 6) + 1;
   }
 
-  defendSelf(){
+  defendSelf() {
     this.defend = true;
   }
 
   abstract action: Action;
   preAction: Action = (players, targetUnit) => {
     if (this.HP !== 0 && !this.paralyzed)
-      return this.action(players.map((player)=> {
-        if(player.id === this.id)
-          player.defend = false
-        return player
-      }), targetUnit);
-      else return players
+      return this.action(
+        players.map((player) => {
+          if (player.id === this.id) player.defend = false;
+          return player;
+        }),
+        targetUnit
+      );
+    else return players;
   };
   abstract generateActionDescription: Description;
 }
@@ -56,7 +57,4 @@ export interface ActionReturn {
 
 export type Description = (source: Unit, targetId: Unit) => string;
 
-export type Action = (
-  players: Array<Unit>,
-  targetUnit: Unit
-) => Array<Unit>;
+export type Action = (players: Array<Unit>, targetUnit: Unit) => Array<Unit>;

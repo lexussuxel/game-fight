@@ -3,7 +3,7 @@ import { UNITS } from "../constants";
 import { Description } from "../interfaces";
 
 export class Sirena extends Paralyzer {
-  constructor(id: number, ) {
+  constructor(id: number) {
     super(UNITS[8], id);
   }
   generateActionDescription: Description = (source, target) => {

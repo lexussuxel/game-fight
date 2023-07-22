@@ -1,6 +1,4 @@
 import styled from "@emotion/styled";
-import { UI_KIT } from "../../UI";
-
 
 export const NavWrapper = styled.div`
   height: 24vh;

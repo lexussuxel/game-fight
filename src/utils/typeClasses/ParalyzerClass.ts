@@ -5,10 +5,10 @@ export abstract class Paralyzer extends Unit {
     super(object, id);
   }
   action: Action = (players, targetUnit) => {
-    return players.map((player)=>{
-      if(player.id === targetUnit.id && targetUnit.team !== this.team)
-        player.paralyzed = true
-      return player
-    })
+    return players.map((player) => {
+      if (player.id === targetUnit.id && targetUnit.team !== this.team)
+        player.paralyzed = true;
+      return player;
+    });
   };
 }

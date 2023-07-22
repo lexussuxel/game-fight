@@ -7,6 +7,8 @@ export class Monk extends HealerSingle {
     super(UNITS[6], 25, id);
   }
   generateActionDescription: Description = (source, target) => {
-    return `${source.name} from ${""} heals ${target.name} on position ${""} from its team!`;
+    return `${source.name} from ${""} heals ${
+      target.name
+    } on position ${""} from its team!`;
   };
 }

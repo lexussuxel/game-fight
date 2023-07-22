@@ -7,7 +7,6 @@ import {
   TitleText,
 } from "./styles";
 import { Unit } from "../../utils/interfaces";
-import { UI_KIT } from "../../UI";
 import { HELPER_TEXT } from "../../utils/constants";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -18,7 +17,7 @@ interface FullCardProps {
 }
 
 export default function FullCard({ player, setHelperText }: FullCardProps) {
-  const source = useSelector((state:RootState)=> state.gameSlice.source)
+  const source = useSelector((state: RootState) => state.gameSlice.source);
   const playerType: string = Object.getPrototypeOf(player.constructor).name;
   function onHover() {
     setHelperText(playerType + ": " + HELPER_TEXT[playerType]);
@@ -28,11 +27,13 @@ export default function FullCard({ player, setHelperText }: FullCardProps) {
       <FullCardWrapper
         enemy={source?.team === player.team}
         onMouseEnter={onHover}
-        source={player.id === source?.id }
+        source={player.id === source?.id}
       >
         <FullCardImg alt={player.name} src={player.img} />
         <TitleText>{player.name}</TitleText>
-        <PStyled>HP:{player.HP}/{player.maxHP}</PStyled>
+        <PStyled>
+          HP:{player.HP}/{player.maxHP}
+        </PStyled>
         <PStyled>Type: {playerType}</PStyled>
         <PercentHP
           enemy={source?.team === player.team}
