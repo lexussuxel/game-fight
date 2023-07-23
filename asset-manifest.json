@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.js": "/fight/static/js/main.05c6c00b.js",
+    "static/media/skeleton.png": "/fight/static/media/skeleton.cac6ba0b8d9690d4dd6c.png",
+    "static/media/elfarcher.png": "/fight/static/media/elfarcher.8544fec0b8a8915ab2ce.png",
+    "static/media/bandit.png": "/fight/static/media/bandit.a06388e86a3064f24bd8.png",
+    "static/media/monk.png": "/fight/static/media/monk.88d87cf53da6a312423a.png",
+    "static/media/sirena.png": "/fight/static/media/sirena.8496ae6a20d326c90a08.png",
+    "static/media/archimage.png": "/fight/static/media/archimage.2753cf530fe05575d551.png",
+    "static/media/bishop.png": "/fight/static/media/bishop.9b85b8917d8f5a9186f4.png",
+    "static/media/centaur.png": "/fight/static/media/centaur.adac51a731b6aa045058.png",
+    "static/media/skeletonmage.png": "/fight/static/media/skeletonmage.bd160fc35118992f9166.png",
+    "index.html": "/fight/index.html",
+    "main.05c6c00b.js.map": "/fight/static/js/main.05c6c00b.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.05c6c00b.js"
+  ]
+}
