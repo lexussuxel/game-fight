@@ -18,6 +18,7 @@ const initialState: Game = {
   sourceType: null,
   currentTarget: null,
   attackNow: false,
+  hover: null,
 };
 
 export const gameSlice = createSlice({
@@ -90,10 +91,23 @@ export const gameSlice = createSlice({
     preAttack: (state) => {
       state.attackNow = true;
     },
+    setHover: (state, action: PayloadAction<Unit>) => {
+      state.hover = action.payload;
+    },
+    removeHover: (state) => {
+      state.hover = null;
+    },
   },
 });
 
-export const { init, pickTarget, attack, defend, preAttack } =
-  gameSlice.actions;
+export const {
+  init,
+  pickTarget,
+  attack,
+  defend,
+  preAttack,
+  setHover,
+  removeHover,
+} = gameSlice.actions;
 
 export default gameSlice.reducer;

@@ -16,6 +16,7 @@ interface CardProps {
   isTarget: boolean;
   shake: boolean;
   defend: boolean;
+  hover: boolean;
 }
 
 export function hoverCardValidation(
@@ -47,7 +48,8 @@ export const CardWrapper = styled.div<CardProps>`
   background-color: ${({ dead, defend }) =>
     backgroundCardValidation(dead, defend)};
   width: 100%;
-  transform: ${({ isSource }) => (isSource ? "scale(1.15, 1.15)" : "unset")};
+  transform: ${({ isSource, hover }) =>
+    isSource ? "scale(1.15, 1.15)" : hover ? "scale(1.05, 1.05)" : "unset"};
   z-index: ${({ isSource }) => (isSource ? "1" : "unset")};
   max-height: 100%;
   display: flex;

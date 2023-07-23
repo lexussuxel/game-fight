@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import NavBar from "./components/NavBar";
 import {
   AppWrapper,
@@ -11,14 +11,13 @@ import Battlefield from "./components/Battlefield";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./store";
 import { attack, init, defend, preAttack } from "./store/gameSlice";
-import { HEAL_CLASSES, TARGET_CLASSES } from "./utils/constants";
+import { HEAL_CLASSES, HELPER_TEXT, TARGET_CLASSES } from "./utils/constants";
 import { Paralyzer } from "./utils/typeClasses";
 
 function App() {
-  const { round, source, currentTarget } = useSelector(
+  const { round, source, currentTarget, hover } = useSelector(
     (state: RootState) => state.gameSlice
   );
-  const [helperText, setHelperText] = useState("description");
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(init());
@@ -39,12 +38,21 @@ function App() {
     return false;
   }, [source, currentTarget]);
 
+  const getHelperText = useCallback(() => {
+    if (hover?.constructor) {
+      const playerType: string = Object.getPrototypeOf(hover?.constructor).name;
+      return playerType + ": " + HELPER_TEXT[playerType];
+    }
+    return "Description";
+  }, [hover]);
+
   function attackButtonHandler() {
     dispatch(preAttack());
     setTimeout(() => {
       dispatch(attack());
     }, 200);
   }
+
   function defendButtonHandler() {
     dispatch(defend());
   }
@@ -63,9 +71,9 @@ function App() {
         </EndRoundButton>
         <EndRoundButton onClick={defendButtonHandler}>Defend</EndRoundButton>
       </RoundWrapper>
-      <NavBar setHelperText={setHelperText} />
+      <NavBar />
       <Battlefield />
-      <HelperTextWrapper>{helperText}</HelperTextWrapper>
+      <HelperTextWrapper>{getHelperText()}</HelperTextWrapper>
     </AppWrapper>
   );
 }

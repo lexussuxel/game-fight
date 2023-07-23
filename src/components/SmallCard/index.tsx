@@ -20,7 +20,7 @@ interface SmallCardProps {
 
 export default function SmallCard({ player }: SmallCardProps) {
   const playerType: string = Object.getPrototypeOf(player.constructor).name;
-  const { source, players, currentTarget, attackNow } = useSelector(
+  const { source, players, currentTarget, attackNow, hover } = useSelector(
     (state: RootState) => state.gameSlice
   );
 
@@ -66,6 +66,7 @@ export default function SmallCard({ player }: SmallCardProps) {
         target={targetValidation()}
         isSource={source?.id === player.id}
         defend={player.defend}
+        hover={hover?.id === player.id}
       >
         <DeadIndicator
           dead={player.HP === 0}

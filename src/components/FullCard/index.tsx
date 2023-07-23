@@ -7,26 +7,30 @@ import {
   TitleText,
 } from "./styles";
 import { Unit } from "../../utils/interfaces";
-import { HELPER_TEXT } from "../../utils/constants";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { removeHover, setHover } from "../../store/gameSlice";
 
 interface FullCardProps {
   player: Unit;
-  setHelperText: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function FullCard({ player, setHelperText }: FullCardProps) {
+export default function FullCard({ player }: FullCardProps) {
   const source = useSelector((state: RootState) => state.gameSlice.source);
   const playerType: string = Object.getPrototypeOf(player.constructor).name;
+  const dispatch = useDispatch();
   function onHover() {
-    setHelperText(playerType + ": " + HELPER_TEXT[playerType]);
+    dispatch(setHover(player));
+  }
+  function onHoverLeave() {
+    dispatch(removeHover());
   }
   return (
     <>
       <FullCardWrapper
         enemy={source?.team === player.team}
         onMouseEnter={onHover}
+        onMouseLeave={onHoverLeave}
         source={player.id === source?.id}
       >
         <FullCardImg alt={player.name} src={player.img} />

@@ -9,4 +9,5 @@ export interface Game {
   currentTarget: Unit | null;
   sourceType: string | null;
   attackNow: boolean;
+  hover: Unit | null;
 }
