@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "/sunmait-fight/static/js/main.0d7b1702.js",
+    "main.js": "/sunmait-fight/static/js/main.29a97518.js",
     "static/media/skeleton.png": "/sunmait-fight/static/media/skeleton.cac6ba0b8d9690d4dd6c.png",
     "static/media/elfarcher.png": "/sunmait-fight/static/media/elfarcher.8544fec0b8a8915ab2ce.png",
     "static/media/bandit.png": "/sunmait-fight/static/media/bandit.a06388e86a3064f24bd8.png",
@@ -11,9 +11,9 @@
     "static/media/centaur.png": "/sunmait-fight/static/media/centaur.adac51a731b6aa045058.png",
     "static/media/skeletonmage.png": "/sunmait-fight/static/media/skeletonmage.bd160fc35118992f9166.png",
     "index.html": "/sunmait-fight/index.html",
-    "main.0d7b1702.js.map": "/sunmait-fight/static/js/main.0d7b1702.js.map"
+    "main.29a97518.js.map": "/sunmait-fight/static/js/main.29a97518.js.map"
   },
   "entrypoints": [
-    "static/js/main.0d7b1702.js"
+    "static/js/main.29a97518.js"
   ]
 }
