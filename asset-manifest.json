@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/sunmait-fight/static/js/main.29a97518.js",
-    "static/media/skeleton.png": "/sunmait-fight/static/media/skeleton.cac6ba0b8d9690d4dd6c.png",
-    "static/media/elfarcher.png": "/sunmait-fight/static/media/elfarcher.8544fec0b8a8915ab2ce.png",
-    "static/media/bandit.png": "/sunmait-fight/static/media/bandit.a06388e86a3064f24bd8.png",
-    "static/media/monk.png": "/sunmait-fight/static/media/monk.88d87cf53da6a312423a.png",
-    "static/media/sirena.png": "/sunmait-fight/static/media/sirena.8496ae6a20d326c90a08.png",
-    "static/media/archimage.png": "/sunmait-fight/static/media/archimage.2753cf530fe05575d551.png",
-    "static/media/bishop.png": "/sunmait-fight/static/media/bishop.9b85b8917d8f5a9186f4.png",
-    "static/media/centaur.png": "/sunmait-fight/static/media/centaur.adac51a731b6aa045058.png",
-    "static/media/skeletonmage.png": "/sunmait-fight/static/media/skeletonmage.bd160fc35118992f9166.png",
-    "index.html": "/sunmait-fight/index.html",
-    "main.29a97518.js.map": "/sunmait-fight/static/js/main.29a97518.js.map"
+    "main.js": "/game-fight/static/js/main.85e29606.js",
+    "static/media/skeleton.png": "/game-fight/static/media/skeleton.cac6ba0b8d9690d4dd6c.png",
+    "static/media/elfarcher.png": "/game-fight/static/media/elfarcher.8544fec0b8a8915ab2ce.png",
+    "static/media/bandit.png": "/game-fight/static/media/bandit.a06388e86a3064f24bd8.png",
+    "static/media/monk.png": "/game-fight/static/media/monk.88d87cf53da6a312423a.png",
+    "static/media/sirena.png": "/game-fight/static/media/sirena.8496ae6a20d326c90a08.png",
+    "static/media/archimage.png": "/game-fight/static/media/archimage.2753cf530fe05575d551.png",
+    "static/media/bishop.png": "/game-fight/static/media/bishop.9b85b8917d8f5a9186f4.png",
+    "static/media/centaur.png": "/game-fight/static/media/centaur.adac51a731b6aa045058.png",
+    "static/media/skeletonmage.png": "/game-fight/static/media/skeletonmage.bd160fc35118992f9166.png",
+    "index.html": "/game-fight/index.html",
+    "main.85e29606.js.map": "/game-fight/static/js/main.85e29606.js.map"
   },
   "entrypoints": [
-    "static/js/main.29a97518.js"
+    "static/js/main.85e29606.js"
   ]
 }
